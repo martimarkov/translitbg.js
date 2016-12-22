@@ -51,6 +51,24 @@
           'Ия' : 'Ia',
           'иЯ' : 'iA',
           'ИЯ' : 'IA',
+        },
+        lat2cyr: {
+          'zh' : 'ж',
+'ts' : 'ц',
+'ch' : 'ч',
+'sh' : 'ш',
+'yu' : 'ю',
+'ya' : 'я',
+'Zh' : 'Ж',
+'Ts' : 'Ц',
+'Ch' : 'Ч',
+'SH' : 'Ш',
+'Yu' : 'Ю',
+'Ya' : 'Я',
+'sht' : 'щ',
+'Sht' : 'Щ',
+
+
         }
       },
       cyr2lat: {
@@ -118,7 +136,52 @@
         'Я' : 'Ya'
       },
       lat2cyr: {
-        // TODO:
+        'a' : 'а',
+'b' : 'б',
+'v' : 'в',
+'g' : 'г',
+'d' : 'д',
+'e' : 'е',
+'z' : 'з',
+'i' : 'и',
+'y' : 'й',
+'k' : 'к',
+'l' : 'л',
+'m' : 'м',
+'n' : 'н',
+'o' : 'о',
+'p' : 'п',
+'r' : 'р',
+'s' : 'с',
+'t' : 'т',
+'u' : 'у',
+'f' : 'ф',
+'h' : 'х',
+'a' : 'ъ',
+'y' : 'ь',
+'A' : 'А',
+'B' : 'Б',
+'V' : 'В',
+'G' : 'Г',
+'D' : 'Д',
+'E' : 'Е',
+'Z' : 'З',
+'I' : 'И',
+'Y' : 'Й',
+'K' : 'К',
+'L' : 'Л',
+'M' : 'М',
+'N' : 'Н',
+'O' : 'О',
+'P' : 'П',
+'R' : 'Р',
+'S' : 'С',
+'T' : 'Т',
+'U' : 'У',
+'F' : 'Ф',
+'H' : 'Х',
+'A' : 'Ъ',
+'Y' : 'Ь',
       },
     },
 
@@ -170,10 +233,26 @@
               continue;
             }
           }
+          
+          //Latin tokens
+          if (typeof next !== 'undefined') {
+          var curToken = cur + next;
+
+          if (this._mode.tokens.lat2cyr[curToken]) {
+            var nextNext = array[i + 2];
+            if (typeof nextNext === 'undefined' || /^[-\s]$/.test(nextNext)) {
+              result.append(this._mode.tokens.lat2cyr[curToken]);
+              i++;
+              continue;
+            }
+          }
+          
         }
 
         if (this._mode.cyr2lat[cur]) {
           result.append(this._mode.cyr2lat[cur]);
+        } else if (this._mode.lat2cyr[cur]) {
+          result.append(this._mode.lat2cyr[cur]);
         } else {
           result.append(cur);
         }
